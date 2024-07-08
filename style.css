@@ -13,14 +13,16 @@ body {
     margin-bottom: 20px; 
 }
 
-#startButton {
+#startButton, #restart {
     margin-bottom: 40px;
+    margin-right: 40px;
     display: inline-block;
-    border-radius: 5px;
+    border-radius: 3px;
 }
 
-#startButton:hover {
-    background-color: blue;
+#startButton:hover, #restart:hover {
+    background-color: grey;
+    
 }
 
 #grid {
@@ -46,4 +48,12 @@ body {
 
 .obstacle {
     background-color: black;
+}
+
+.start{
+    background-color: green;
+}
+
+.end {
+    background-color: blueviolet;
 }
