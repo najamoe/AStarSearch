@@ -1,16 +1,16 @@
 body {
     display: flex;
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
-    height: 100vh; /* Ensure the body takes the full height of the viewport */
-    margin: 0; /* Remove default margin */
-    flex-direction: column; /* Align items vertically */
+    justify-content: center; 
+    align-items: center; 
+    height: 100vh; 
+    margin: 0; 
+    flex-direction: column; 
 }
 
 #headline {
     font-family: Arial, Helvetica, sans-serif;
     font-size: 40px;
-    margin-bottom: 20px; /* Add some margin for spacing */
+    margin-bottom: 20px; 
 }
 
 #startButton {
@@ -26,7 +26,7 @@ body {
 #grid {
     display: flex;
     flex-direction: column;
-    align-items: center; /* Center the grid rows */
+    align-items: center; 
 }
 
 .row {
@@ -34,11 +34,16 @@ body {
 }
 
 .cell {
-    width: 60px; /* Adjust the width as needed */
-    height: 60px; /* Adjust the height as needed */
+    width: 60px; 
+    height: 60px; 
     border: 1px solid black;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     box-sizing: border-box;
+}
+
+.walkable {
+    background-color: white;
+}
+
+.obstacle {
+    background-color: black;
 }

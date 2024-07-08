@@ -1,5 +1,6 @@
 let row = 15;
 let col = 15;
+let obstacleProbability = 0.1; // 30% probability for a cell to be an obstacle
 
 // Function to display the grid
 function displayGrid(rows, cols) {
@@ -12,6 +13,14 @@ function displayGrid(rows, cols) {
         for (let j = 0; j < cols; j++) {
             const cellDiv = document.createElement("div");
             cellDiv.className = "cell";
+
+            // Randomly determine if this cell is an obstacle
+            if (Math.random() < obstacleProbability) {
+                cellDiv.classList.add("obstacle");
+            } else {
+                cellDiv.classList.add("walkable");
+            }
+
             rowDiv.appendChild(cellDiv);
         }
 
