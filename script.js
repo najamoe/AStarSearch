@@ -50,9 +50,9 @@ let gridData = createGrid(row, col, obstacleProbability);
             cellDiv.addEventListener("click", function () {
               if (!startNode) {
                 startNode = { row: i, col: j };
-                cellDiv.classList.add("start"); // Add start class only once
+                cellDiv.classList.add("start"); 
                 cellDiv.textContent = "A";
-                updateGridDisplay(openSet, closedSet); // Update display on click
+                updateGridDisplay(openSet, closedSet); 
               }
             });
       
@@ -84,21 +84,18 @@ let gridData = createGrid(row, col, obstacleProbability);
         }
       }
       
-      
-      
+   
 
 function updateGridDisplay(openSet, closedSet) {
   const gridContainer = document.getElementById("grid");
   const cells = gridContainer.getElementsByClassName("cell");
 
-  // Reset all classes and cost displays first
   for (const cell of cells) {
     cell.classList.remove("open", "closed", "start");
     const gDiv = cell.querySelector(".g-cost");
     const hDiv = cell.querySelector(".h-cost");
     const fDiv = cell.querySelector(".f-cost");
 
-    // Check if the cell is the startNode
     const isStartNode =
       cell.dataset.row == startNode.row && cell.dataset.col == startNode.col;
 
@@ -109,21 +106,18 @@ function updateGridDisplay(openSet, closedSet) {
     }
   }
 
-  // Add classes for closed set
   for (const node of closedSet) {
     const cell = cells[node.row * col + node.col];
     cell.classList.add("closed");
     updateCostDisplay(cell, node);
   }
 
-  // Add classes for open set
   for (const node of openSet) {
     const cell = cells[node.row * col + node.col];
     cell.classList.add("open");
     updateCostDisplay(cell, node);
   }
 
-  // Ensure start node retains its original class
   if (startNode) {
     const startCell = cells[startNode.row * col + startNode.col];
     startCell.classList.add("start");
@@ -191,16 +185,16 @@ function runAStarSlow() {
 }
 function stepAStar(grid, startNode, goalNode) {
   if (openSet.length > 0) {
-      openSet.sort((a, b) => a.f - b.f);
-      const currentNode = openSet.shift();
+      openSet.sort((a, b) => a.f - b.f); //Orders the nodes fromt he lowest 'f'-value, if two nodes have same value they are orderes based on their position in the array
+      const currentNode = openSet.shift(); //Removes and retrieves the node with lowest 'f'-value
 
       if (currentNode === goalNode) {
-          tracePath(goalNode); // Mark the path nodes
-          updateGridDisplay(openSet, closedSet); // Refresh the grid display
+          tracePath(goalNode); 
+          updateGridDisplay(openSet, closedSet); 
           return;
       }
 
-      closedSet.add(currentNode); // Add current node to closed set
+      closedSet.add(currentNode); 
 
       const neighbors = getNeighbors(grid, currentNode);
 
@@ -225,14 +219,12 @@ function stepAStar(grid, startNode, goalNode) {
           neighbor.f = neighbor.g + neighbor.h;
       }
 
-      updateGridDisplay(openSet, closedSet); // Update display after processing current node
+      updateGridDisplay(openSet, closedSet); 
       setTimeout(() => stepAStar(grid, startNode, goalNode), 0);
   } else {
-      updateGridDisplay(openSet, closedSet); // Final update if openSet is empty
+      updateGridDisplay(openSet, closedSet); 
   }
 }
-
-
 
 
 function stepAStarSlowmotion(grid, startNode, goalNode) {
@@ -281,7 +273,7 @@ function stepAStarSlowmotion(grid, startNode, goalNode) {
 function tracePath(goalNode) {
   let currentNode = goalNode;
 
-  // Ensure that we have a valid path
+  
   if (!currentNode.parent && currentNode !== gridData[startNode.row][startNode.col]) {
       alert("No path found!");
       return;
@@ -296,7 +288,7 @@ function tracePath(goalNode) {
       currentNode = currentNode.parent;
   }
 
-  // Mark the start and end nodes
+
   const startCell = document.querySelector(`.cell[data-row='${startNode.row}'][data-col='${startNode.col}']`);
   if (startCell) {
       startCell.classList.add("start");
