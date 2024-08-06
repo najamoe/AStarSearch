@@ -189,49 +189,50 @@ function runAStarSlow() {
 
   stepAStarSlowmotion(gridData, start, end);
 }
-
 function stepAStar(grid, startNode, goalNode) {
   if (openSet.length > 0) {
-    openSet.sort((a, b) => a.f - b.f);
-    const currentNode = openSet.shift();
+      openSet.sort((a, b) => a.f - b.f);
+      const currentNode = openSet.shift();
 
-    if (currentNode === goalNode) {
-      tracePath(goalNode);
-      updateGridDisplay(openSet, closedSet);
-      return;
-    }
-
-    closedSet.add(currentNode);
-
-    const neighbors = getNeighbors(grid, currentNode);
-
-    for (const neighbor of neighbors) {
-      if (closedSet.has(neighbor) || !neighbor.walkable) {
-        continue;
+      if (currentNode === goalNode) {
+          tracePath(goalNode); // Mark the path nodes
+          updateGridDisplay(openSet, closedSet); // Refresh the grid display
+          return;
       }
 
-      const isDiagonal = (currentNode.row !== neighbor.row) && (currentNode.col !== neighbor.col);
-      const moveCost = isDiagonal ? 14 : 10;
-      const tentativeG = currentNode.g + moveCost;
+      closedSet.add(currentNode); // Add current node to closed set
 
-      if (!openSet.includes(neighbor)) {
-        openSet.push(neighbor);
-      } else if (tentativeG >= neighbor.g) {
-        continue;
+      const neighbors = getNeighbors(grid, currentNode);
+
+      for (const neighbor of neighbors) {
+          if (closedSet.has(neighbor) || !neighbor.walkable) {
+              continue;
+          }
+
+          const isDiagonal = (currentNode.row !== neighbor.row) && (currentNode.col !== neighbor.col);
+          const moveCost = isDiagonal ? 14 : 10;
+          const tentativeG = currentNode.g + moveCost;
+
+          if (!openSet.includes(neighbor)) {
+              openSet.push(neighbor);
+          } else if (tentativeG >= neighbor.g) {
+              continue;
+          }
+
+          neighbor.parent = currentNode;
+          neighbor.g = tentativeG;
+          neighbor.h = euclideanHeuristic(neighbor, goalNode);
+          neighbor.f = neighbor.g + neighbor.h;
       }
 
-      neighbor.parent = currentNode;
-      neighbor.g = tentativeG;
-      neighbor.h = euclideanHeuristic(neighbor, goalNode);
-      neighbor.f = neighbor.g + neighbor.h;
-    }
-
-    updateGridDisplay(openSet, closedSet);
-    setTimeout(() => stepAStar(grid, startNode, goalNode), 0);
+      updateGridDisplay(openSet, closedSet); // Update display after processing current node
+      setTimeout(() => stepAStar(grid, startNode, goalNode), 0);
   } else {
-    updateGridDisplay(openSet, closedSet);
+      updateGridDisplay(openSet, closedSet); // Final update if openSet is empty
   }
 }
+
+
 
 
 function stepAStarSlowmotion(grid, startNode, goalNode) {
@@ -277,28 +278,32 @@ function stepAStarSlowmotion(grid, startNode, goalNode) {
   }
 }
 
-
 function tracePath(goalNode) {
   let currentNode = goalNode;
 
   // Ensure that we have a valid path
   if (!currentNode.parent && currentNode !== gridData[startNode.row][startNode.col]) {
-    alert("No path found!");
-    return;
+      alert("No path found!");
+      return;
   }
 
-  while (currentNode.parent) {
-    const cell = document.querySelector(`.cell[data-row='${currentNode.row}'][data-col='${currentNode.col}']`);
-    if (cell) {
-      cell.classList.add("path");
-    }
-    currentNode = currentNode.parent;
+  while (currentNode) {
+      const cell = document.querySelector(`.cell[data-row='${currentNode.row}'][data-col='${currentNode.col}']`);
+      if (cell) {
+          cell.classList.add("path");
+      }
+      if (currentNode === gridData[startNode.row][startNode.col]) break;
+      currentNode = currentNode.parent;
   }
 
-  // Mark the start node
+  // Mark the start and end nodes
   const startCell = document.querySelector(`.cell[data-row='${startNode.row}'][data-col='${startNode.col}']`);
   if (startCell) {
-    startCell.classList.add("start");
+      startCell.classList.add("start");
+  }
+  const endCell = document.querySelector(`.cell[data-row='${endNode.row}'][data-col='${endNode.col}']`);
+  if (endCell) {
+      endCell.classList.add("end");
   }
 }
 

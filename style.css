@@ -80,7 +80,7 @@ body {
 }
 
 .start {
-    background-color: red;
+    background-color: lightcoral;
     top: 0;
     bottom: 0;
 }
@@ -89,15 +89,12 @@ body {
     background-color: green;
 }
 
-.path {
-    background-color: yellow;
+.cell.path {
+    background-color: lightcoral!important; /* Ensure path color is applied */
 }
 
-.closed {
-    background-color: lightcoral;
-}
 
-.open {
+.open, .closed {
     background-color: lightgreen;
 }
 
