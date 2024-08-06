@@ -196,6 +196,7 @@ function stepAStar(grid, startNode, goalNode) {
     const currentNode = openSet.shift();
 
     if (currentNode === goalNode) {
+      tracePath(goalNode);
       updateGridDisplay(openSet, closedSet);
       return;
     }
@@ -209,7 +210,6 @@ function stepAStar(grid, startNode, goalNode) {
         continue;
       }
 
-      // Calculate the tentative g cost
       const isDiagonal = (currentNode.row !== neighbor.row) && (currentNode.col !== neighbor.col);
       const moveCost = isDiagonal ? 14 : 10;
       const tentativeG = currentNode.g + moveCost;
@@ -221,8 +221,8 @@ function stepAStar(grid, startNode, goalNode) {
       }
 
       neighbor.parent = currentNode;
-      neighbor.g = tentativeG; //Distance from starting node A
-      neighbor.h = euclideanHeuristic(neighbor, goalNode); //Distance from endNode B
+      neighbor.g = tentativeG;
+      neighbor.h = euclideanHeuristic(neighbor, goalNode);
       neighbor.f = neighbor.g + neighbor.h;
     }
 
@@ -233,9 +233,6 @@ function stepAStar(grid, startNode, goalNode) {
   }
 }
 
-function euclideanHeuristic(node, goal) {
-  return Math.sqrt((goal.row - node.row) ** 2 + (goal.col - node.col) ** 2) *10;
-}
 
 function stepAStarSlowmotion(grid, startNode, goalNode) {
   if (openSet.length > 0) {
@@ -243,6 +240,7 @@ function stepAStarSlowmotion(grid, startNode, goalNode) {
     const currentNode = openSet.shift();
 
     if (currentNode === goalNode) {
+      tracePath(goalNode);
       updateGridDisplay(openSet, closedSet);
       return;
     }
@@ -256,7 +254,6 @@ function stepAStarSlowmotion(grid, startNode, goalNode) {
         continue;
       }
 
-      // Calculate the tentative g cost
       const isDiagonal = (currentNode.row !== neighbor.row) && (currentNode.col !== neighbor.col);
       const moveCost = isDiagonal ? 14 : 10;
       const tentativeG = currentNode.g + moveCost;
@@ -268,8 +265,8 @@ function stepAStarSlowmotion(grid, startNode, goalNode) {
       }
 
       neighbor.parent = currentNode;
-      neighbor.g = tentativeG; //Distance from starting node A
-      neighbor.h = euclideanHeuristic(neighbor, goalNode); //Distance from endNode B
+      neighbor.g = tentativeG;
+      neighbor.h = euclideanHeuristic(neighbor, goalNode);
       neighbor.f = neighbor.g + neighbor.h;
     }
 
@@ -279,6 +276,33 @@ function stepAStarSlowmotion(grid, startNode, goalNode) {
     updateGridDisplay(openSet, closedSet);
   }
 }
+
+
+function tracePath(goalNode) {
+  let currentNode = goalNode;
+
+  // Ensure that we have a valid path
+  if (!currentNode.parent && currentNode !== gridData[startNode.row][startNode.col]) {
+    alert("No path found!");
+    return;
+  }
+
+  while (currentNode.parent) {
+    const cell = document.querySelector(`.cell[data-row='${currentNode.row}'][data-col='${currentNode.col}']`);
+    if (cell) {
+      cell.classList.add("path");
+    }
+    currentNode = currentNode.parent;
+  }
+
+  // Mark the start node
+  const startCell = document.querySelector(`.cell[data-row='${startNode.row}'][data-col='${startNode.col}']`);
+  if (startCell) {
+    startCell.classList.add("start");
+  }
+}
+
+
 
 function euclideanHeuristic(node, goal) {
   return Math.sqrt((goal.row - node.row) ** 2 + (goal.col - node.col) ** 2) *10;
