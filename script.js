@@ -36,7 +36,7 @@ let gridData = createGrid(row, col, obstacleProbability);
       
             const cellData = gridData[i][j];
       
-            // Set class for endNode position
+            // Set class for endNode 
             if (i === endNode.row && j === endNode.col) {
               cellDiv.classList.add("end");
               cellDiv.textContent = "B";
