@@ -1,5 +1,3 @@
-# A* search algorithm
-
 # A* Algorithm Visualization
 
 ## Description
