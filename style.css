@@ -31,10 +31,10 @@ body {
     grid-template-rows: repeat(15, 1fr); /* Use fractional units */
     grid-template-columns: repeat(15, 1fr); /* Use fractional units */
     gap: 1px;
-    width: 90vw; /* Responsive width */
-    max-width: 600px; /* Maximum width for larger screens */
-    height: 90vw; /* Responsive height to maintain square cells */
-    max-height: 600px; /* Maximum height for larger screens */
+    width: 110vw; /* Responsive width */
+    max-width: 900px; /* Maximum width for larger screens */
+    height: 110vw; /* Responsive height to maintain square cells */
+    max-height: 900px; /* Maximum height for larger screens */
 }
 
 .cell {
@@ -45,13 +45,13 @@ body {
     align-items: center;
     text-align: center;
     font-weight: bold;
-    font-size: 2vw; /* Use relative units */
+    font-size: 1vw; /* Use relative units */
     box-sizing: border-box; /* Ensure padding and border are included in element's total width and height */
 }
 
 .cost {
     position: absolute;
-    font-size: 1vw; /* Use relative units */
+    font-size: 0.5vw; /* Use relative units */
     font-weight: bold; 
     color: black;
 }
@@ -101,23 +101,23 @@ body {
     background-color: lightgreen;
 }
 
-/* Media queries for different screen sizes */
+/* Media query for bigger screen size */
 @media (min-width: 600px) {
     #headline {
-        font-size: 3rem; /* Adjust for larger screens */
+        font-size: 3rem; 
     }
 
     #startButton, #startSlowButton, #restart {
-        font-size: 1.2rem; /* Adjust for larger screens */
+        font-size: 1.2rem; 
         margin-bottom: 30px;
         margin-right: 30px;
     }
 
     .cell {
-        font-size: 1.5vw; /* Adjust for larger screens */
+        font-size: 1.5vw; 
     }
 
     .cost {
-        font-size: 0.8vw; /* Adjust for larger screens */
+        font-size: 0.8vw; 
     }
 }
