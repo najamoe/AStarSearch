@@ -55,7 +55,7 @@ This project visualizes the A* pathfinding algorithm on a 15x15 grid with obstac
 
 ## Getting Started
 
-1. Open the visualization [here](link in a browser.
+1. Open the visualization [here](https://najamoe.github.io/AStarSearch/) 
 2. Click on any cell to set it as the starting node.
 3. Click "Start" to run the A* algorithm or "Start Slow" to see it step-by-step.
 4. Observe the pathfinding process and the final path from the start node to the end node.
