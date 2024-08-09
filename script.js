@@ -36,7 +36,7 @@ let gridData = createGrid(row, col, obstacleProbability);
       
             const cellData = gridData[i][j];
       
-            // Set class for endNode position
+            // Set class for endNode 
             if (i === endNode.row && j === endNode.col) {
               cellDiv.classList.add("end");
               cellDiv.textContent = "B";
@@ -50,9 +50,9 @@ let gridData = createGrid(row, col, obstacleProbability);
             cellDiv.addEventListener("click", function () {
               if (!startNode) {
                 startNode = { row: i, col: j };
-                cellDiv.classList.add("start"); // Add start class only once
+                cellDiv.classList.add("start"); 
                 cellDiv.textContent = "A";
-                updateGridDisplay(openSet, closedSet); // Update display on click
+                updateGridDisplay(openSet, closedSet); 
               }
             });
       
@@ -84,19 +84,21 @@ let gridData = createGrid(row, col, obstacleProbability);
         }
       }
       
+<<<<<<< HEAD
+=======
+   
+>>>>>>> 2b8a46ad34c70db258206a20ac23922deb182c30
 
 function updateGridDisplay(openSet, closedSet) {
   const gridContainer = document.getElementById("grid");
   const cells = gridContainer.getElementsByClassName("cell");
 
-  // Reset all classes and cost displays first
   for (const cell of cells) {
     cell.classList.remove("open", "closed", "start");
     const gDiv = cell.querySelector(".g-cost");
     const hDiv = cell.querySelector(".h-cost");
     const fDiv = cell.querySelector(".f-cost");
 
-    // Check if the cell is the startNode
     const isStartNode =
       cell.dataset.row == startNode.row && cell.dataset.col == startNode.col;
 
@@ -107,21 +109,18 @@ function updateGridDisplay(openSet, closedSet) {
     }
   }
 
-  // Add classes for closed set
   for (const node of closedSet) {
     const cell = cells[node.row * col + node.col];
     cell.classList.add("closed");
     updateCostDisplay(cell, node);
   }
 
-  // Add classes for open set
   for (const node of openSet) {
     const cell = cells[node.row * col + node.col];
     cell.classList.add("open");
     updateCostDisplay(cell, node);
   }
 
-  // Ensure start node retains its original class
   if (startNode) {
     const startCell = cells[startNode.row * col + startNode.col];
     startCell.classList.add("start");
@@ -190,10 +189,11 @@ function runAStarSlow() {
 
 function stepAStar(grid, startNode, goalNode) {
   if (openSet.length > 0) {
-    openSet.sort((a, b) => a.f - b.f);
-    const currentNode = openSet.shift();
+      openSet.sort((a, b) => a.f - b.f); //Orders the nodes fromt he lowest 'f'-value, if two nodes have same value they are orderes based on their position in the array
+      const currentNode = openSet.shift(); //Removes and retrieves the node with lowest 'f'-value
 
     if (currentNode === goalNode) {
+          tracePath(goalNode); 
       updateGridDisplay(openSet, closedSet);
       return;
     }
@@ -207,7 +207,6 @@ function stepAStar(grid, startNode, goalNode) {
         continue;
       }
 
-      // Calculate the tentative g cost
       const isDiagonal = (currentNode.row !== neighbor.row) && (currentNode.col !== neighbor.col);
       const moveCost = isDiagonal ? 14 : 10;
       const tentativeG = currentNode.g + moveCost;
@@ -219,8 +218,8 @@ function stepAStar(grid, startNode, goalNode) {
       }
 
       neighbor.parent = currentNode;
-      neighbor.g = tentativeG; //Distance from starting node A
-      neighbor.h = euclideanHeuristic(neighbor, goalNode); //Distance from endNode B
+          neighbor.g = tentativeG;
+          neighbor.h = euclideanHeuristic(neighbor, goalNode);
       neighbor.f = neighbor.g + neighbor.h;
     }
 
@@ -231,9 +230,6 @@ function stepAStar(grid, startNode, goalNode) {
   }
 }
 
-function euclideanHeuristic(node, goal) {
-  return Math.sqrt((goal.row - node.row) ** 2 + (goal.col - node.col) ** 2) *10;
-}
 
 function stepAStarSlowmotion(grid, startNode, goalNode) {
   if (openSet.length > 0) {
@@ -241,6 +237,7 @@ function stepAStarSlowmotion(grid, startNode, goalNode) {
     const currentNode = openSet.shift();
 
     if (currentNode === goalNode) {
+      tracePath(goalNode);
       updateGridDisplay(openSet, closedSet);
       return;
     }
@@ -254,7 +251,6 @@ function stepAStarSlowmotion(grid, startNode, goalNode) {
         continue;
       }
 
-      // Calculate the tentative g cost
       const isDiagonal = (currentNode.row !== neighbor.row) && (currentNode.col !== neighbor.col);
       const moveCost = isDiagonal ? 14 : 10;
       const tentativeG = currentNode.g + moveCost;
@@ -266,8 +262,8 @@ function stepAStarSlowmotion(grid, startNode, goalNode) {
       }
 
       neighbor.parent = currentNode;
-      neighbor.g = tentativeG; //Distance from starting node A
-      neighbor.h = euclideanHeuristic(neighbor, goalNode); //Distance from endNode B
+      neighbor.g = tentativeG;
+      neighbor.h = euclideanHeuristic(neighbor, goalNode);
       neighbor.f = neighbor.g + neighbor.h;
     }
 
@@ -304,8 +300,33 @@ function getNeighbors(grid, node) {
       neighbors.push(grid[nx][ny]);
     }
   }
-
   return neighbors;
+}
+
+function tracePath(goalNode) {
+  let currentNode = goalNode;
+  
+  if (!currentNode.parent && currentNode !== gridData[startNode.row][startNode.col]) {
+      alert("No path found!");
+      return;
+  }
+
+  while (currentNode) {
+      const cell = document.querySelector(`.cell[data-row='${currentNode.row}'][data-col='${currentNode.col}']`);
+      if (cell) {
+          cell.classList.add("path");
+      }
+      if (currentNode === gridData[startNode.row][startNode.col]) break;
+      currentNode = currentNode.parent;
+  }
+  const startCell = document.querySelector(`.cell[data-row='${startNode.row}'][data-col='${startNode.col}']`);
+  if (startCell) {
+      startCell.classList.add("start");
+  }
+  const endCell = document.querySelector(`.cell[data-row='${endNode.row}'][data-col='${endNode.col}']`);
+  if (endCell) {
+      endCell.classList.add("end");
+  }
 }
 
 displayGrid(row, col);
@@ -325,3 +346,6 @@ document.getElementById("restart").addEventListener("click", () => {
   gridData = createGrid(row, col, obstacleProbability);
   displayGrid(row, col);
 });
+
+
+
