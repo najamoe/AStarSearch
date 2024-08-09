@@ -84,8 +84,6 @@ let gridData = createGrid(row, col, obstacleProbability);
         }
       }
       
-      
-      
 
 function updateGridDisplay(openSet, closedSet) {
   const gridContainer = document.getElementById("grid");
