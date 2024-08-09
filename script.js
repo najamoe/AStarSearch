@@ -192,41 +192,41 @@ function stepAStar(grid, startNode, goalNode) {
       openSet.sort((a, b) => a.f - b.f); //Orders the nodes fromt he lowest 'f'-value, if two nodes have same value they are orderes based on their position in the array
       const currentNode = openSet.shift(); //Removes and retrieves the node with lowest 'f'-value
 
-    if (currentNode === goalNode) {
+      if (currentNode === goalNode) {
           tracePath(goalNode); 
-      updateGridDisplay(openSet, closedSet);
-      return;
-    }
-
-    closedSet.add(currentNode);
-
-    const neighbors = getNeighbors(grid, currentNode);
-
-    for (const neighbor of neighbors) {
-      if (closedSet.has(neighbor) || !neighbor.walkable) {
-        continue;
+          updateGridDisplay(openSet, closedSet); 
+          return;
       }
 
-      const isDiagonal = (currentNode.row !== neighbor.row) && (currentNode.col !== neighbor.col);
-      const moveCost = isDiagonal ? 14 : 10;
-      const tentativeG = currentNode.g + moveCost;
+      closedSet.add(currentNode); 
 
-      if (!openSet.includes(neighbor)) {
-        openSet.push(neighbor);
-      } else if (tentativeG >= neighbor.g) {
-        continue;
-      }
+      const neighbors = getNeighbors(grid, currentNode);
 
-      neighbor.parent = currentNode;
+      for (const neighbor of neighbors) {
+          if (closedSet.has(neighbor) || !neighbor.walkable) {
+              continue;
+          }
+
+          const isDiagonal = (currentNode.row !== neighbor.row) && (currentNode.col !== neighbor.col);
+          const moveCost = isDiagonal ? 14 : 10;
+          const tentativeG = currentNode.g + moveCost;
+
+          if (!openSet.includes(neighbor)) {
+              openSet.push(neighbor);
+          } else if (tentativeG >= neighbor.g) {
+              continue;
+          }
+
+          neighbor.parent = currentNode;
           neighbor.g = tentativeG;
           neighbor.h = euclideanHeuristic(neighbor, goalNode);
-      neighbor.f = neighbor.g + neighbor.h;
-    }
+          neighbor.f = neighbor.g + neighbor.h;
+      }
 
-    updateGridDisplay(openSet, closedSet);
-    setTimeout(() => stepAStar(grid, startNode, goalNode), 0);
+      updateGridDisplay(openSet, closedSet); 
+      setTimeout(() => stepAStar(grid, startNode, goalNode), 0);
   } else {
-    updateGridDisplay(openSet, closedSet);
+      updateGridDisplay(openSet, closedSet); 
   }
 }
 
