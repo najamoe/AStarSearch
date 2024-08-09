@@ -4,6 +4,9 @@
 
 This project visualizes the A* pathfinding algorithm on a 15x15 grid with obstacles. Users can select a starting node, and the algorithm will find the shortest path to a predefined end node using the Euclidean heuristic.
 
+![image](https://github.com/user-attachments/assets/2225fdc9-b5db-45fc-ab2b-9ec43782fc3a)
+
+
 ## Features
 
 - **Grid Generation**: Creates a grid of specified dimensions with obstacles.
