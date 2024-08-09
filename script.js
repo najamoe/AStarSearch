@@ -84,10 +84,6 @@ let gridData = createGrid(row, col, obstacleProbability);
         }
       }
       
-<<<<<<< HEAD
-=======
-   
->>>>>>> 2b8a46ad34c70db258206a20ac23922deb182c30
 
 function updateGridDisplay(openSet, closedSet) {
   const gridContainer = document.getElementById("grid");
