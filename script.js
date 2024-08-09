@@ -183,6 +183,7 @@ function runAStarSlow() {
 
   stepAStarSlowmotion(gridData, start, end);
 }
+
 function stepAStar(grid, startNode, goalNode) {
   if (openSet.length > 0) {
       openSet.sort((a, b) => a.f - b.f); //Orders the nodes fromt he lowest 'f'-value, if two nodes have same value they are orderes based on their position in the array
@@ -270,37 +271,6 @@ function stepAStarSlowmotion(grid, startNode, goalNode) {
   }
 }
 
-function tracePath(goalNode) {
-  let currentNode = goalNode;
-
-  
-  if (!currentNode.parent && currentNode !== gridData[startNode.row][startNode.col]) {
-      alert("No path found!");
-      return;
-  }
-
-  while (currentNode) {
-      const cell = document.querySelector(`.cell[data-row='${currentNode.row}'][data-col='${currentNode.col}']`);
-      if (cell) {
-          cell.classList.add("path");
-      }
-      if (currentNode === gridData[startNode.row][startNode.col]) break;
-      currentNode = currentNode.parent;
-  }
-
-
-  const startCell = document.querySelector(`.cell[data-row='${startNode.row}'][data-col='${startNode.col}']`);
-  if (startCell) {
-      startCell.classList.add("start");
-  }
-  const endCell = document.querySelector(`.cell[data-row='${endNode.row}'][data-col='${endNode.col}']`);
-  if (endCell) {
-      endCell.classList.add("end");
-  }
-}
-
-
-
 function euclideanHeuristic(node, goal) {
   return Math.sqrt((goal.row - node.row) ** 2 + (goal.col - node.col) ** 2) *10;
 }
@@ -327,8 +297,33 @@ function getNeighbors(grid, node) {
       neighbors.push(grid[nx][ny]);
     }
   }
-
   return neighbors;
+}
+
+function tracePath(goalNode) {
+  let currentNode = goalNode;
+  
+  if (!currentNode.parent && currentNode !== gridData[startNode.row][startNode.col]) {
+      alert("No path found!");
+      return;
+  }
+
+  while (currentNode) {
+      const cell = document.querySelector(`.cell[data-row='${currentNode.row}'][data-col='${currentNode.col}']`);
+      if (cell) {
+          cell.classList.add("path");
+      }
+      if (currentNode === gridData[startNode.row][startNode.col]) break;
+      currentNode = currentNode.parent;
+  }
+  const startCell = document.querySelector(`.cell[data-row='${startNode.row}'][data-col='${startNode.col}']`);
+  if (startCell) {
+      startCell.classList.add("start");
+  }
+  const endCell = document.querySelector(`.cell[data-row='${endNode.row}'][data-col='${endNode.col}']`);
+  if (endCell) {
+      endCell.classList.add("end");
+  }
 }
 
 displayGrid(row, col);
@@ -348,3 +343,6 @@ document.getElementById("restart").addEventListener("click", () => {
   gridData = createGrid(row, col, obstacleProbability);
   displayGrid(row, col);
 });
+
+
+
